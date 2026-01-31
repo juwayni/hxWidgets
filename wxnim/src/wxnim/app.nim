@@ -1,5 +1,5 @@
 import os
-import evthandler, window
+import common_types, evthandler, window
 import ../wxraw/types
 import ../wxraw/app_raw
 
@@ -33,10 +33,6 @@ proc run*(self: App) =
 proc exit*(self: App): int =
   ## Exits the application.
   int(self.rawApp.onExit())
-
-proc topWindow*(self: App): Window =
-  ## Note: A full implementation would return the actual top window.
-  nil
 
 proc `topWindow=`*(self: App, win: Window) =
   self.rawApp.setTopWindow(win.rawWindow)

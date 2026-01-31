@@ -27,7 +27,7 @@ proc main() =
   discard helpMenu.append(201, "About")
   discard menuBar.append(helpMenu, "Help")
 
-  frame.setTopWindow = frame # Simplified
+  app.topWindow = frame
 
   let panel = newPanel(frame)
   let mainSizer = newBoxSizer(wxVERTICAL)

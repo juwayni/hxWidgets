@@ -12,3 +12,14 @@ proc getUserDataDir*(): WxStringRaw {.importcpp: "wxStandardPaths::Get().GetUser
 
 # SystemSettings
 proc getMetric*(metric: cint, win: ptr WindowRaw = nil): cint {.importcpp: "wxSystemSettings::GetMetric(@)", header: "wx/settings.h".}
+
+# Config
+proc newConfigRaw*(appName: WxStringRaw): ptr ConfigRaw {.importcpp: "new wxConfig(@)", header: "wx/config.h".}
+proc deleteConfigRaw*(self: ptr ConfigRaw) {.importcpp: "delete #", header: "wx/config.h".}
+proc read*(self: ptr ConfigRaw, key: WxStringRaw, defaultVal: WxStringRaw): WxStringRaw {.importcpp: "Read(@)", header: "wx/config.h".}
+proc write*(self: ptr ConfigRaw, key: WxStringRaw, value: WxStringRaw): bool {.importcpp: "Write(@)", header: "wx/config.h".}
+
+# Clipboard
+proc openClipboard*(self: ptr WxObjectRaw): bool {.importcpp: "((wxClipboard*)#)->Open()", header: "wx/clipbrd.h".}
+proc closeClipboard*(self: ptr WxObjectRaw) {.importcpp: "((wxClipboard*)#)->Close()", header: "wx/clipbrd.h".}
+var wxTheClipboard* {.importcpp: "wxTheClipboard", header: "wx/clipbrd.h".}: ptr WxObjectRaw

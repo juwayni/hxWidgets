@@ -11,8 +11,32 @@ import wxnim/menu
 import wxnim/dialog
 import wxnim/controls
 import wxnim/gdi
-import wxnim/advanced_widgets
 import wxnim/system
 import wxnim/utils
+import wxnim/choice
+import wxnim/combobox
+import wxnim/gauge
+import wxnim/listbox
+import wxnim/scrollbar
+import wxnim/scrolledwindow
+import wxnim/searchctrl
+import wxnim/slider
+import wxnim/spinctrl
+import wxnim/staticbitmap
+import wxnim/staticbox
+import wxnim/staticline
+import wxnim/togglebutton
+import wxnim/treectrl
+import wxnim/listctrl
+import wxnim/grid
+import wxnim/webview
+import wxnim/styledtextctrl
+import wxnim/notebook
+import wxnim/common_types
+import wxnim/evthandler
+import wxnim/object
+import wxnim/window
+import wxnim/toplevelwindow
+import wxnim/control
 
-export app, frame, panel, button, events, boxsizer, gridsizer, textctrl, menu, dialog, controls, gdi, advanced_widgets, system, utils
+export app, frame, panel, button, events, boxsizer, gridsizer, textctrl, menu, dialog, controls, gdi, system, utils, choice, combobox, gauge, listbox, scrollbar, scrolledwindow, searchctrl, slider, spinctrl, staticbitmap, staticbox, staticline, togglebutton, treectrl, listctrl, grid, webview, styledtextctrl, notebook, common_types, evthandler, object, window, toplevelwindow, control

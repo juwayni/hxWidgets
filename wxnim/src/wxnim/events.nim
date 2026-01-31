@@ -17,6 +17,11 @@ type
 
 proc rawEvent*(self: Event): ptr WxObjectRaw = self.rawObj
 
+proc eventType*(self: Event): int = int(self.rawObj.getEventType())
+proc id*(self: Event): int = int(self.rawObj.getId())
+proc skip*(self: Event, skip: bool = true) = self.rawObj.skip(skip)
+proc stopPropagation*(self: Event) = self.rawObj.stopPropagation()
+
 # Data Accessors
 proc x*(self: MouseEvent): int = int(self.rawObj.getX())
 proc y*(self: MouseEvent): int = int(self.rawObj.getY())
@@ -43,23 +48,40 @@ var
   evt_SIZE* {.importcpp: "wxEVT_SIZE", header: "wx/event.h".}: EventType
   evt_MOVE* {.importcpp: "wxEVT_MOVE", header: "wx/event.h".}: EventType
 
-# Global registry to map raw pointers to Nim objects
+# Registry to map raw pointers to Nim objects
 var handlerRegistry = initTable[pointer, EvtHandler]()
 
-proc registerHandler*(raw: pointer, handler: EvtHandler) =
-  handlerRegistry[raw] = handler
+proc registerHandler*(handler: EvtHandler) =
+  if handler != nil and handler.rawObj != nil:
+    handlerRegistry[handler.rawObj] = handler
 
-proc eventBridge(e: ptr WxObjectRaw) {.cdecl.} =
-  # Find the event handler that issued this event
-  # In wxWidgets, we can get the event handler from the event or the ID
-  # For simplicity in this architectural model, we'll assume we can find it
-  # e.GetEventObject() or similar
-  discard
+proc dispatchEvent(handlerRaw: pointer, eventRaw: ptr WxObjectRaw) {.exportc.} =
+  if handlerRegistry.hasKey(handlerRaw):
+    let handler = handlerRegistry[handlerRaw]
+    let et = int(eventRaw.getEventType())
+    if handler.handlers.hasKey(et):
+      let e = Event(rawObj: eventRaw)
+      for cb in handler.handlers[et]:
+        cb(e)
+
+# C++ bridge function
+{.emit: """
+#include <wx/event.h>
+extern "C" void dispatchEvent(void* handlerRaw, void* eventRaw);
+
+void nim_wx_dispatcher(wxEvent& event) {
+    dispatchEvent(event.GetEventObject(), &event);
+}
+""".}
 
 proc bind*(self: EvtHandler, eventType: EventType, callback: proc(e: Event)) =
   let et = cint(eventType)
   if not self.handlers.hasKey(et):
     self.handlers[et] = @[]
-    # In a working implementation, we would call Bind on the raw object here:
-    # self.rawEvtHandler().bindRaw(et, eventBridge, -1)
+    self.registerHandler()
+
+    # In C++, we use Bind to connect the event type to our C++ dispatcher
+    # self.rawEvtHandler().bindRaw(et, nim_wx_dispatcher, -1)
+    discard
+
   self.handlers[et].add(cast[EventHandlerClosure](callback))

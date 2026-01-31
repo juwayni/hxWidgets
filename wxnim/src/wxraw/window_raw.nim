@@ -5,3 +5,6 @@ proc destroy*(self: ptr WindowRaw): bool {.importcpp: "Destroy()", header: "wx/w
 proc setSizer*(self: ptr WindowRaw, sizer: ptr SizerRaw) {.importcpp: "SetSizer(@)", header: "wx/window.h".}
 proc setSizerAndFit*(self: ptr WindowRaw, sizer: ptr SizerRaw, deleteOld: bool = true) {.importcpp: "SetSizerAndFit(@)", header: "wx/window.h".}
 proc layout*(self: ptr WindowRaw): bool {.importcpp: "Layout()", header: "wx/window.h".}
+proc setBackgroundColour*(self: ptr WindowRaw, colour: ptr ColourRaw): bool {.importcpp: "SetBackgroundColour(#)", header: "wx/window.h".}
+proc setForegroundColour*(self: ptr WindowRaw, colour: ptr ColourRaw): bool {.importcpp: "SetForegroundColour(#)", header: "wx/window.h".}
+proc setToolTip*(self: ptr WindowRaw, tip: WxStringRaw) {.importcpp: "SetToolTip(@)", header: "wx/window.h".}
