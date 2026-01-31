@@ -4,28 +4,43 @@ Idiomatic Nim bindings for wxWidgets, inspired by [hxWidgets](https://github.com
 
 ## Philosophy
 
-`wxnim` is a high-quality, two-layered, idiomatic Nim binding for wxWidgets. It follows a strict separation between low-level FFI and high-level Nim code.
+`wxnim` aims to provide a complete, high-quality, and idiomatic Nim binding for wxWidgets. It follows a strict two-layer architecture:
+- **Layer A (Public API)**: Clean Nim code using `ref object`, closures for events, and property-like procs.
+- **Layer B (Internal Bindings)**: Direct `importcpp` bindings to wxWidgets C++ API.
 
-## Features (Phase 1 & 2)
+## Features
 
-* **Core**: App, Frame, Panel, Window
-* **Common Controls**: Button, StaticText, CheckBox, TextCtrl (Multiline support)
-* **Menus**: MenuBar, Menu, MenuItem
-* **Dialogs**: MessageDialog, FileDialog
-* **Layout**: BoxSizer, Sizer
-* **Events**: Closure-based event binding
-* **GDI**: PaintDC, ClientDC, basic drawing
+### Core & Containers
+* `App`, `Frame`, `Panel`, `ScrolledWindow`, `Notebook`
 
-## Architecture
+### Common Controls
+* `Button`, `StaticText`, `CheckBox`, `RadioButton`, `TextCtrl`, `ComboBox`, `ListBox`
 
-### Layer A: Public API (`src/wxnim/`)
-* **Idiomatic Nim**: Uses `ref object`, property-like procs, and modules.
-* **Closure Events**: Bind events directly to Nim procs or closures.
-* **Type-Safe Styles**: Composable styles using `distinct` types.
+### Advanced Widgets
+* `ListCtrl` (Report, Icon, List modes)
+* `TreeCtrl`
 
-### Layer B: Internal Bindings (`src/wxraw/`)
-* **Direct FFI**: Uses Nim's `importcpp` to interface with C++ wxWidgets.
-* **Separated**: Keeps C++ complexity out of the user-facing API.
+### Menus & Dialogs
+* `MenuBar`, `Menu`, `MenuItem`
+* `MessageDialog`, `FileDialog`
+
+### GDI & Graphics
+* `Colour`, `Font`, `Pen`, `Brush`, `Bitmap`, `Image`, `Icon`
+* `PaintDC`, `ClientDC`
+
+### Layout Management
+* `BoxSizer`, `StaticBoxSizer`, `GridSizer`, `FlexGridSizer`
+
+### Events
+* Strongly typed event system with closure support.
+* `MouseEvent`, `KeyEvent`, `SizeEvent`, `MoveEvent`, `PaintEvent`, etc.
+
+## Installation
+
+Add `wxnim` to your `.nimble` file:
+```nim
+requires "wxnim >= 0.1.0"
+```
 
 ## Example
 
@@ -38,13 +53,6 @@ let frame = newFrame(nil, title = "Hello wxnim")
 frame.show()
 app.mainLoop()
 ```
-
-## Comparisons with hxWidgets
-
-`wxnim` maps the architectural spirit of `hxWidgets` to Nim's unique features:
-* `typedef` style modules in `hxWidgets` -> `distinct` types in `wxnim`.
-* `cpp.Pointer` in Haxe -> `ptr` and `ref object` in Nim.
-* `haxe.Callbacks` -> Nim closures.
 
 ## License
 

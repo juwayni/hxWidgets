@@ -1,4 +1,4 @@
-import window, common_types
+import window, common_types, utils
 import ../wxraw/types
 import ../wxraw/textctrl_raw
 
@@ -21,9 +21,7 @@ proc newTextCtrl*(parent: Window, text: string = "", id: int = -1,
   result.initEvtHandler()
 
 proc value*(self: TextCtrl): string =
-  # In a real implementation, we'd convert WxString back to Nim string
-  # For now, placeholder
-  ""
+  $(self.rawTextCtrl.getValue())
 
 proc `value=`*(self: TextCtrl, val: string) =
   self.rawTextCtrl.setValue(constructWxString(val.cstring))

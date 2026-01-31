@@ -1,4 +1,4 @@
-import window, common_types
+import window, common_types, utils
 import ../wxraw/types
 import ../wxraw/dialog_raw
 
@@ -24,8 +24,7 @@ proc newFileDialog*(parent: Window, message: string = "Choose a file", defaultDi
   result.initEvtHandler()
 
 proc path*(self: FileDialog): string =
-  # In a real app, convert WxString to string
-  ""
+  $(cast[ptr FileDialogRaw](self.rawObj).getPath())
 
 proc rawFileDialog*(self: FileDialog): ptr FileDialogRaw =
   cast[ptr FileDialogRaw](self.rawObj)

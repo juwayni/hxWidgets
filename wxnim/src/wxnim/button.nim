@@ -1,9 +1,9 @@
-import window
+import window, common_types, evthandler
 import ../wxraw/types
 import ../wxraw/button_raw
 
 type
-  Button* = ref object of Window
+  Button* = ref object of Control
 
 proc rawButton*(self: Button): ptr ButtonRaw =
   cast[ptr ButtonRaw](self.rawObj)
@@ -18,3 +18,4 @@ proc newButton*(parent: Window, label: string = "", id: int = -1,
 
   let raw = newButtonRaw(rawParent, id.cint, rawLabel, pos, size, style)
   result = Button(rawObj: cast[ptr WxObjectRaw](raw))
+  result.initEvtHandler()
