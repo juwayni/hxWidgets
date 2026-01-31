@@ -1,42 +1,5 @@
 # Main entry point for wxnim
-import wxnim/app
-import wxnim/frame
-import wxnim/panel
-import wxnim/button
-import wxnim/events
-import wxnim/sizers/boxsizer
-import wxnim/sizers/gridsizer
-import wxnim/textctrl
-import wxnim/menu
-import wxnim/dialog
-import wxnim/controls
-import wxnim/gdi
-import wxnim/system
-import wxnim/utils
-import wxnim/choice
-import wxnim/combobox
-import wxnim/gauge
-import wxnim/listbox
-import wxnim/scrollbar
-import wxnim/scrolledwindow
-import wxnim/searchctrl
-import wxnim/slider
-import wxnim/spinctrl
-import wxnim/staticbitmap
-import wxnim/staticbox
-import wxnim/staticline
-import wxnim/togglebutton
-import wxnim/treectrl
-import wxnim/listctrl
-import wxnim/grid
-import wxnim/webview
-import wxnim/styledtextctrl
-import wxnim/notebook
-import wxnim/common_types
-import wxnim/evthandler
-import wxnim/object
-import wxnim/window
-import wxnim/toplevelwindow
-import wxnim/control
+import wxnim/[app, frame, panel, button, events, textctrl, menu, dialog, controls, gdi, system, utils, choice, combobox, gauge, listbox, scrollbar, scrolledwindow, searchctrl, slider, spinctrl, staticbitmap, staticbox, staticline, togglebutton, treectrl, listctrl, grid, webview, styledtextctrl, notebook, common_types, evthandler, object, window, toplevelwindow, control, calendarctrl, hyperlinkctrl, dataviewctrl, propertygrid, gdi_extra, bitmappundle, process, glcanvas, bookctrlbase]
+import wxnim/sizers/[boxsizer, gridsizer, sizer]
 
-export app, frame, panel, button, events, boxsizer, gridsizer, textctrl, menu, dialog, controls, gdi, system, utils, choice, combobox, gauge, listbox, scrollbar, scrolledwindow, searchctrl, slider, spinctrl, staticbitmap, staticbox, staticline, togglebutton, treectrl, listctrl, grid, webview, styledtextctrl, notebook, common_types, evthandler, object, window, toplevelwindow, control
+export app, frame, panel, button, events, boxsizer, gridsizer, sizer, textctrl, menu, dialog, controls, gdi, system, utils, choice, combobox, gauge, listbox, scrollbar, scrolledwindow, searchctrl, slider, spinctrl, staticbitmap, staticbox, staticline, togglebutton, treectrl, listctrl, grid, webview, styledtextctrl, notebook, common_types, evthandler, object, window, toplevelwindow, control, calendarctrl, hyperlinkctrl, dataviewctrl, propertygrid, gdi_extra, bitmappundle, process, glcanvas, bookctrlbase

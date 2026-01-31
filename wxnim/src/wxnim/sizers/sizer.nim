@@ -16,6 +16,11 @@ proc add*(self: Sizer, sizer: Sizer, proportion: int = 0, flag: int = 0, border:
 proc addSpacer*(self: Sizer, size: int) =
   self.rawSizer.addSpacer(size.cint)
 
+proc detach*(self: Sizer, window: Window): bool {.importcpp: "Detach(#)", header: "wx/sizer.h".}
+proc detach*(self: Sizer, sizer: Sizer): bool {.importcpp: "Detach(#)", header: "wx/sizer.h".}
+
+proc clear*(self: Sizer, delete_windows: bool = false) {.importcpp: "Clear(@)", header: "wx/sizer.h".}
+
 proc recalcSizes*(self: Sizer) = self.rawSizer.recalcSizes()
 proc layout*(self: Sizer) = self.rawSizer.layout()
 proc fit*(self: Sizer, window: Window) = self.rawSizer.fit(window.rawWindow)

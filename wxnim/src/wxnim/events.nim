@@ -14,6 +14,9 @@ type
   SizeEvent* = ref object of Event
   MoveEvent* = ref object of Event
   PaintEvent* = ref object of Event
+  CloseEvent* = ref object of Event
+  IdleEvent* = ref object of Event
+  NotifyEvent* = ref object of Event
 
 proc rawEvent*(self: Event): ptr WxObjectRaw = self.rawObj
 
@@ -40,13 +43,18 @@ var
   evt_MENU* {.importcpp: "wxEVT_MENU", header: "wx/event.h".}: EventType
   evt_CLOSE_WINDOW* {.importcpp: "wxEVT_CLOSE_WINDOW", header: "wx/event.h".}: EventType
   evt_PAINT* {.importcpp: "wxEVT_PAINT", header: "wx/event.h".}: EventType
+
   evt_LEFT_DOWN* {.importcpp: "wxEVT_LEFT_DOWN", header: "wx/event.h".}: EventType
   evt_LEFT_UP* {.importcpp: "wxEVT_LEFT_UP", header: "wx/event.h".}: EventType
   evt_MOTION* {.importcpp: "wxEVT_MOTION", header: "wx/event.h".}: EventType
+
   evt_KEY_DOWN* {.importcpp: "wxEVT_KEY_DOWN", header: "wx/event.h".}: EventType
   evt_KEY_UP* {.importcpp: "wxEVT_KEY_UP", header: "wx/event.h".}: EventType
+
   evt_SIZE* {.importcpp: "wxEVT_SIZE", header: "wx/event.h".}: EventType
   evt_MOVE* {.importcpp: "wxEVT_MOVE", header: "wx/event.h".}: EventType
+
+  evt_IDLE* {.importcpp: "wxEVT_IDLE", header: "wx/event.h".}: EventType
 
 # Registry to map raw pointers to Nim objects
 var handlerRegistry = initTable[pointer, EvtHandler]()
@@ -55,24 +63,17 @@ proc registerHandler*(handler: EvtHandler) =
   if handler != nil and handler.rawObj != nil:
     handlerRegistry[handler.rawObj] = handler
 
-proc dispatchEvent(handlerRaw: pointer, eventRaw: ptr WxObjectRaw) {.exportc.} =
+proc nim_wx_dispatcher(event: ptr WxObjectRaw) {.cdecl.} =
+  # We need to find the handler from the event.
+  # wxEvent::GetEventObject() returns the wxEvtHandler.
+  let handlerRaw = cast[ptr EvtHandlerRaw](event).getEventObject()
   if handlerRegistry.hasKey(handlerRaw):
     let handler = handlerRegistry[handlerRaw]
-    let et = int(eventRaw.getEventType())
+    let et = int(event.getEventType())
     if handler.handlers.hasKey(et):
-      let e = Event(rawObj: eventRaw)
+      let e = Event(rawObj: event)
       for cb in handler.handlers[et]:
         cb(e)
-
-# C++ bridge function
-{.emit: """
-#include <wx/event.h>
-extern "C" void dispatchEvent(void* handlerRaw, void* eventRaw);
-
-void nim_wx_dispatcher(wxEvent& event) {
-    dispatchEvent(event.GetEventObject(), &event);
-}
-""".}
 
 proc bind*(self: EvtHandler, eventType: EventType, callback: proc(e: Event)) =
   let et = cint(eventType)
@@ -80,8 +81,7 @@ proc bind*(self: EvtHandler, eventType: EventType, callback: proc(e: Event)) =
     self.handlers[et] = @[]
     self.registerHandler()
 
-    # In C++, we use Bind to connect the event type to our C++ dispatcher
-    # self.rawEvtHandler().bindRaw(et, nim_wx_dispatcher, -1)
-    discard
+    # Actually call wxEvtHandler::Bind
+    self.rawEvtHandler().bindRaw(et, nim_wx_dispatcher, -1)
 
   self.handlers[et].add(cast[EventHandlerClosure](callback))

@@ -1,12 +1,15 @@
 import window, common_types, utils, evthandler
 import ../wxraw/types
 import ../wxraw/dialog_raw
+import ../wxraw/dialog_extra_raw
 
 type
   Dialog* = ref object of TopLevelWindow
   MessageDialog* = ref object of Dialog
   FileDialog* = ref object of Dialog
   DirDialog* = ref object of Dialog
+  TextEntryDialog* = ref object of Dialog
+  PasswordEntryDialog* = ref object of Dialog
 
 proc rawDialog*(self: Dialog): ptr DialogRaw = cast[ptr DialogRaw](self.rawObj)
 
@@ -27,3 +30,13 @@ proc newDirDialog*(parent: Window, message: string = "Choose a directory", defau
   result = DirDialog(rawObj: cast[ptr WxObjectRaw](raw)); result.initEvtHandler()
 
 proc path*(self: DirDialog): string = $(cast[ptr DirDialogRaw](self.rawObj).getPath())
+
+proc newTextEntryDialog*(parent: Window, message: string, caption: string = "Please enter text", value: string = "", style: clong = 0): TextEntryDialog =
+  let raw = newTextEntryDialogRaw(parent.rawWindow, constructWxString(message.cstring), constructWxString(caption.cstring), constructWxString(value.cstring), style)
+  result = TextEntryDialog(rawObj: cast[ptr WxObjectRaw](raw)); result.initEvtHandler()
+
+proc value*(self: TextEntryDialog): string = $(cast[ptr DialogRaw](self.rawObj).getValue())
+
+proc newPasswordEntryDialog*(parent: Window, message: string, caption: string = "Please enter password", value: string = "", style: clong = 0): PasswordEntryDialog =
+  let raw = newPasswordEntryDialogRaw(parent.rawWindow, constructWxString(message.cstring), constructWxString(caption.cstring), constructWxString(value.cstring), style)
+  result = PasswordEntryDialog(rawObj: cast[ptr WxObjectRaw](raw)); result.initEvtHandler()

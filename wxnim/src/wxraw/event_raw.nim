@@ -4,6 +4,7 @@ proc getEventType*(self: ptr WxObjectRaw): cint {.importcpp: "((wxEvent*)#)->Get
 proc getId*(self: ptr WxObjectRaw): cint {.importcpp: "((wxEvent*)#)->GetId()", header: "wx/event.h".}
 proc skip*(self: ptr WxObjectRaw, skip: bool = true) {.importcpp: "((wxEvent*)#)->Skip(@)", header: "wx/event.h".}
 proc stopPropagation*(self: ptr WxObjectRaw) {.importcpp: "((wxEvent*)#)->StopPropagation()", header: "wx/event.h".}
+proc getEventObject*(self: ptr WxObjectRaw): pointer {.importcpp: "((wxEvent*)#)->GetEventObject()", header: "wx/event.h".}
 
 # MouseEvent accessors
 proc getX*(self: ptr WxObjectRaw): cint {.importcpp: "((wxMouseEvent*)#)->GetX()", header: "wx/event.h".}
