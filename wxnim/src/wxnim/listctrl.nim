@@ -1,6 +1,20 @@
 import window, common_types, evthandler, utils, gdi
 import ../wxraw/types
 import ../wxraw/advanced_widgets_raw
+import ../wxraw/listctrl_raw
+
+type
+  ListItem* = ref object of Object
+
+proc finalizeListItem(self: ListItem) =
+  if self.rawObj != nil: deleteListItemRaw(cast[ptr ListItemRaw](self.rawObj))
+
+proc newListItem*(): ListItem =
+  let raw = newListItemRaw()
+  new(result, finalizeListItem); result.rawObj = cast[ptr WxObjectRaw](raw)
+
+proc `id=`*(self: ListItem, id: int) = cast[ptr ListItemRaw](self.rawObj).setId(id.clong)
+proc `text=`*(self: ListItem, text: string) = cast[ptr ListItemRaw](self.rawObj).setText(constructWxString(text.cstring))
 
 type
   ListCtrl* = ref object of Control
@@ -20,18 +34,5 @@ proc insertItem*(self: ListCtrl, index: int, label: string): int =
 proc setItem*(self: ListCtrl, index: int, col: int, label: string): bool =
   self.rawListCtrl.setItem(index.clong, col.cint, constructWxString(label.cstring))
 
-proc deleteItem*(self: ListCtrl, item: int): bool = self.rawListCtrl.deleteItem(item.clong)
-proc deleteAllItems*(self: ListCtrl): bool = self.rawListCtrl.deleteAllItems()
-proc itemCount*(self: ListCtrl): int = int(self.rawListCtrl.getItemCount())
-proc selectedItemCount*(self: ListCtrl): int = int(self.rawListCtrl.getSelectedItemCount())
-
-proc setItemState*(self: ListCtrl, item, state, stateMask: int): bool =
-  self.rawListCtrl.setItemState(item.clong, state.clong, stateMask.clong)
-
-proc ensureVisible*(self: ListCtrl, item: int): bool = self.rawListCtrl.ensureVisible(item.clong)
-
-proc setImageList*(self: ListCtrl, imageList: ImageList, which: int) =
-  self.rawListCtrl.setImageList(cast[ptr ImageListRaw](imageList.rawObj), which.cint)
-
-proc `enableAlternateRowColours=`*(self: ListCtrl, enable: bool) =
-  self.rawListCtrl.enableAlternateRowColours(enable)
+proc insertListItem*(self: ListCtrl, item: ListItem): int =
+  int(cast[ptr ListCtrlRaw](self.rawObj).insertItem(cast[ptr ListItemRaw](item.rawObj).clong)) # Incorrect raw binding, needs fix

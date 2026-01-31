@@ -63,15 +63,14 @@ proc registerHandler*(handler: EvtHandler) =
   if handler != nil and handler.rawObj != nil:
     handlerRegistry[handler.rawObj] = handler
 
-proc nim_wx_dispatcher(event: ptr WxObjectRaw) {.cdecl.} =
-  # We need to find the handler from the event.
-  # wxEvent::GetEventObject() returns the wxEvtHandler.
-  let handlerRaw = cast[ptr EvtHandlerRaw](event).getEventObject()
+proc nim_wx_dispatcher(event: var EventRaw) {.cdecl.} =
+  let eventPtr = addr event
+  let handlerRaw = cast[ptr WxObjectRaw](eventPtr).getEventObject()
   if handlerRegistry.hasKey(handlerRaw):
     let handler = handlerRegistry[handlerRaw]
-    let et = int(event.getEventType())
+    let et = int(cast[ptr WxObjectRaw](eventPtr).getEventType())
     if handler.handlers.hasKey(et):
-      let e = Event(rawObj: event)
+      let e = Event(rawObj: cast[ptr WxObjectRaw](eventPtr))
       for cb in handler.handlers[et]:
         cb(e)
 

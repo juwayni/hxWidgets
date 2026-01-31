@@ -58,6 +58,7 @@ type
   ImageRaw* {.importcpp: "wxImage", header: "wx/image.h", pure.} = object of WxObjectRaw
   ImageListRaw* {.importcpp: "wxImageList", header: "wx/imaglist.h", pure.} = object of WxObjectRaw
   RegionRaw* {.importcpp: "wxRegion", header: "wx/region.h", pure.} = object of GDIObjectRaw
+  BitmapBundleRaw* {.importcpp: "wxBitmapBundle", header: "wx/bmpbndl.h", pure.} = object
 
   DCRaw* {.importcpp: "wxDC", header: "wx/dc.h", pure.} = object of WxObjectRaw
   WindowDCRaw* {.importcpp: "wxWindowDC", header: "wx/dcclient.h", pure.} = object of DCRaw
@@ -75,13 +76,17 @@ type
   WebViewRaw* {.importcpp: "wxWebView", header: "wx/webview.h", pure.} = object of ControlRaw
   StyledTextCtrlRaw* {.importcpp: "wxStyledTextCtrl", header: "wx/stc/stc.h", pure.} = object of ControlRaw
   DataViewCtrlRaw* {.importcpp: "wxDataViewCtrl", header: "wx/dataview.h", pure.} = object of ControlRaw
+  DataViewListCtrlRaw* {.importcpp: "wxDataViewListCtrl", header: "wx/dataview.h", pure.} = object of DataViewCtrlRaw
+  DataViewTreeCtrlRaw* {.importcpp: "wxDataViewTreeCtrl", header: "wx/dataview.h", pure.} = object of DataViewCtrlRaw
   PropertyGridRaw* {.importcpp: "wxPropertyGrid", header: "wx/propgrid/propgrid.h", pure.} = object of ControlRaw
   HyperlinkCtrlRaw* {.importcpp: "wxHyperlinkCtrl", header: "wx/hyperlink.h", pure.} = object of ControlRaw
   CalendarCtrlRaw* {.importcpp: "wxCalendarCtrl", header: "wx/calctrl.h", pure.} = object of ControlRaw
+  CollapsiblePaneRaw* {.importcpp: "wxCollapsiblePane", header: "wx/collpane.h", pure.} = object of ControlRaw
 
   # Item classes
   DataViewItemRaw* {.importcpp: "wxDataViewItem", header: "wx/dataview.h", pure.} = object
   TreeItemIdRaw* {.importcpp: "wxTreeItemId", header: "wx/treebase.h", pure.} = object
+  EventRaw* {.importcpp: "wxEvent", header: "wx/event.h", pure.} = object of WxObjectRaw
 
   # Utilities
   TimerRaw* {.importcpp: "wxTimer", header: "wx/timer.h", pure.} = object of EvtHandlerRaw
@@ -94,6 +99,7 @@ type
   RectRaw* {.importcpp: "wxRect", header: "wx/gdicmn.h".} = object
     x*, y*, width*, height*: cint
   WxStringRaw* {.importcpp: "wxString", header: "wx/string.h".} = object
+  VariantRaw* {.importcpp: "wxVariant", header: "wx/variant.h", pure.} = object
 
 proc constructWxString*(s: cstring): WxStringRaw {.importcpp: "wxString::FromUTF8(@)", header: "wx/string.h".}
 proc toUtf8*(s: WxStringRaw): cstring {.importcpp: "#.ToUTF8().data()", header: "wx/string.h".}
