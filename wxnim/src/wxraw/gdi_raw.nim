@@ -46,11 +46,18 @@ proc add*(self: ptr ImageListRaw, bitmap: ptr BitmapRaw): cint {.importcpp: "Add
 proc newRegionRaw*(): ptr RegionRaw {.importcpp: "new wxRegion()", header: "wx/region.h".}
 proc deleteRegionRaw*(self: ptr RegionRaw) {.importcpp: "delete #", header: "wx/region.h".}
 
-# GraphicsContext
+# GraphicsContext & Path
 proc createGraphicsContextRaw*(window: ptr WindowRaw): ptr GraphicsContextRaw {.importcpp: "wxGraphicsContext::Create(@)", header: "wx/graphics.h".}
-proc createGraphicsContextRaw*(dc: ptr WindowDCRaw): ptr GraphicsContextRaw {.importcpp: "wxGraphicsContext::Create(@)", header: "wx/graphics.h".}
+proc createPath*(self: ptr GraphicsContextRaw): ptr GraphicsPathRaw {.importcpp: "#->CreatePath()", header: "wx/graphics.h".}
 proc strokeLine*(self: ptr GraphicsContextRaw, x1, y1, x2, y2: cdouble) {.importcpp: "StrokeLine(@)", header: "wx/graphics.h".}
 proc drawRectangle*(self: ptr GraphicsContextRaw, x, y, w, h: cdouble) {.importcpp: "DrawRectangle(@)", header: "wx/graphics.h".}
+proc strokePath*(self: ptr GraphicsContextRaw, path: ptr GraphicsPathRaw) {.importcpp: "StrokePath(#)", header: "wx/graphics.h".}
+proc fillPath*(self: ptr GraphicsContextRaw, path: ptr GraphicsPathRaw) {.importcpp: "FillPath(#)", header: "wx/graphics.h".}
 proc setPen*(self: ptr GraphicsContextRaw, pen: ptr PenRaw) {.importcpp: "SetPen(#)", header: "wx/graphics.h".}
 proc setBrush*(self: ptr GraphicsContextRaw, brush: ptr BrushRaw) {.importcpp: "SetBrush(#)", header: "wx/graphics.h".}
 proc deleteGraphicsContextRaw*(self: ptr GraphicsContextRaw) {.importcpp: "delete #", header: "wx/graphics.h".}
+
+proc moveToPoint*(self: ptr GraphicsPathRaw, x, y: cdouble) {.importcpp: "MoveToPoint(@)", header: "wx/graphics.h".}
+proc addLineToPoint*(self: ptr GraphicsPathRaw, x, y: cdouble) {.importcpp: "AddLineToPoint(@)", header: "wx/graphics.h".}
+proc addRectangle*(self: ptr GraphicsPathRaw, x, y, w, h: cdouble) {.importcpp: "AddRectangle(@)", header: "wx/graphics.h".}
+proc closeSubpath*(self: ptr GraphicsPathRaw) {.importcpp: "CloseSubpath()", header: "wx/graphics.h".}

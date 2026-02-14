@@ -35,4 +35,4 @@ proc setItem*(self: ListCtrl, index: int, col: int, label: string): bool =
   self.rawListCtrl.setItem(index.clong, col.cint, constructWxString(label.cstring))
 
 proc insertListItem*(self: ListCtrl, item: ListItem): int =
-  int(cast[ptr ListCtrlRaw](self.rawObj).insertItem(cast[ptr ListItemRaw](item.rawObj).clong)) # Incorrect raw binding, needs fix
+  int(cast[ptr ListCtrlRaw](self.rawObj).insertItemRaw(cast[ptr ListItemRaw](item.rawObj)))

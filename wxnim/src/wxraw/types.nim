@@ -67,6 +67,7 @@ type
   MemoryDCRaw* {.importcpp: "wxMemoryDC", header: "wx/dcmemory.h", pure.} = object of WindowDCRaw
   GraphicsObjectRaw* {.importcpp: "wxGraphicsObject", header: "wx/graphics.h", pure.} = object of WxObjectRaw
   GraphicsContextRaw* {.importcpp: "wxGraphicsContext", header: "wx/graphics.h", pure.} = object of GraphicsObjectRaw
+  GraphicsPathRaw* {.importcpp: "wxGraphicsPath", header: "wx/graphics.h", pure.} = object of GraphicsObjectRaw
 
   # Advanced
   NotebookRaw* {.importcpp: "wxNotebook", header: "wx/notebook.h", pure.} = object of WindowRaw

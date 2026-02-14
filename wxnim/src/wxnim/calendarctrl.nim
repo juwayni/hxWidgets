@@ -10,3 +10,7 @@ proc newCalendarCtrl*(parent: Window, id: int = -1, x, y, width, height: int = -
   result = CalendarCtrl(rawObj: cast[ptr WxObjectRaw](raw)); result.initEvtHandler()
 
 proc setDate*(self: CalendarCtrl, date: any) = discard # placeholder for wxDateTime
+
+proc enableHolidayDisplay*(self: CalendarCtrl, display: bool = true) {.importcpp: "EnableHolidayDisplay(#)", header: "wx/calctrl.h".}
+proc setHeaderColours*(self: CalendarCtrl, colFg, colBg: Colour) =
+  cast[ptr CalendarCtrlRaw](self.rawObj).setHeaderColours(cast[ptr ColourRaw](colFg.rawObj), cast[ptr ColourRaw](colBg.rawObj))

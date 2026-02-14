@@ -8,6 +8,7 @@ proc addPage*(self: ptr NotebookRaw, page: ptr WindowRaw, text: WxStringRaw, sel
 proc newListCtrlRaw*(parent: ptr WindowRaw, id: cint, pos: PointRaw, size: SizeRaw, style: clong): ptr ListCtrlRaw {.importcpp: "new wxListCtrl(@)", header: "wx/listctrl.h".}
 proc insertColumn*(self: ptr ListCtrlRaw, col: clong, heading: WxStringRaw, format: cint = 0, width: cint = -1): clong {.importcpp: "InsertColumn(@)", header: "wx/listctrl.h".}
 proc insertItem*(self: ptr ListCtrlRaw, index: clong, label: WxStringRaw): clong {.importcpp: "InsertItem(@)", header: "wx/listctrl.h".}
+proc insertItemRaw*(self: ptr ListCtrlRaw, item: ptr ListItemRaw): clong {.importcpp: "InsertItem(#)", header: "wx/listctrl.h".}
 proc setItem*(self: ptr ListCtrlRaw, index: clong, col: cint, label: WxStringRaw): bool {.importcpp: "SetItem(@)", header: "wx/listctrl.h".}
 proc deleteItem*(self: ptr ListCtrlRaw, item: clong): bool {.importcpp: "DeleteItem(#)", header: "wx/listctrl.h".}
 proc deleteAllItems*(self: ptr ListCtrlRaw): bool {.importcpp: "DeleteAllItems()", header: "wx/listctrl.h".}
@@ -53,6 +54,7 @@ proc newHyperlinkCtrlRaw*(parent: ptr WindowRaw, id: cint, label, url: WxStringR
 
 # CalendarCtrl
 proc newCalendarCtrlRaw*(parent: ptr WindowRaw, id: cint, pos: PointRaw, size: SizeRaw, style: clong): ptr CalendarCtrlRaw {.importcpp: "new wxCalendarCtrl(@)", header: "wx/calctrl.h".}
+proc setHeaderColours*(self: ptr CalendarCtrlRaw, colFg, colBg: ptr ColourRaw) {.importcpp: "SetHeaderColours(@)", header: "wx/calctrl.h".}
 
 # GLCanvas
 proc newGLCanvasRaw*(parent: ptr WindowRaw, id: cint, attribList: ptr cint, pos: PointRaw, size: SizeRaw, style: clong): ptr GLCanvasRaw {.importcpp: "new wxGLCanvas(@)", header: "wx/glcanvas.h".}
