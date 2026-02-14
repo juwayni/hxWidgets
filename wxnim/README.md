@@ -37,6 +37,20 @@ Idiomatic Nim bindings for wxWidgets, inspired by [hxWidgets](https://github.com
 * `Timer`, `Config`, `StandardPaths`, `SystemSettings`, `Locale`, `Clipboard`, `Process`, `PlatformInfo`, `ArrayString`, `Variant`
 * **Functional Event System**: Strongly typed event system with closure support and C++ bridge.
 
+## Examples
+
+You can find several examples in the `examples/` directory:
+1. `hello_world.nim`: Basic window creation.
+2. `button_click.nim`: Handling button click events with closures.
+3. `text_input.nim`: Using TextCtrl and retrieving values.
+4. `layout_boxsizer.nim`: Complex layouts using nested BoxSizers.
+5. `notebook.nim`: Implementing a tabbed interface.
+6. `menu_bar.nim`: Creating menus and handling menu events.
+7. `dialogs.nim`: Using various standard wxWidgets dialogs.
+8. `drawing_canvas.nim`: Custom drawing on a panel using DC and GraphicsContext.
+9. `list_and_tree.nim`: Demonstrating ListCtrl and TreeCtrl widgets.
+10. `00-Showcase/`: A complete port of the hxWidgets Showcase application.
+
 ## Architecture
 
 ### Layer A: Public API (`src/wxnim/`)
@@ -47,7 +61,7 @@ Idiomatic Nim bindings for wxWidgets, inspired by [hxWidgets](https://github.com
 
 ### Layer B: Internal Bindings (`src/wxraw/`)
 * **Direct FFI**: Uses Nim's `importcpp` to interface with C++ wxWidgets.
-* **Centralized Types**: Consolidated raw types to ensure compilation consistency.
+* **Consolidated Types**: Consolidated raw types to ensure compilation consistency.
 
 ## Installation
 

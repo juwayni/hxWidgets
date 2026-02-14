@@ -56,18 +56,19 @@ var
 
   evt_IDLE* {.importcpp: "wxEVT_IDLE", header: "wx/event.h".}: EventType
 
-# Registry to map raw pointers to Nim objects
-var handlerRegistry = initTable[pointer, EvtHandler]()
+# Registry to map raw pointers to Nim objects.
+# We store raw pointers to avoid memory leaks.
+var handlerRegistry = initTable[pointer, pointer]()
 
 proc registerHandler*(handler: EvtHandler) =
   if handler != nil and handler.rawObj != nil:
-    handlerRegistry[handler.rawObj] = handler
+    handlerRegistry[handler.rawObj] = cast[pointer](handler)
 
 proc nim_wx_dispatcher(event: var EventRaw) {.cdecl.} =
   let eventPtr = addr event
   let handlerRaw = cast[ptr WxObjectRaw](eventPtr).getEventObject()
   if handlerRegistry.hasKey(handlerRaw):
-    let handler = handlerRegistry[handlerRaw]
+    let handler = cast[EvtHandler](handlerRegistry[handlerRaw])
     let et = int(cast[ptr WxObjectRaw](eventPtr).getEventType())
     if handler.handlers.hasKey(et):
       let e = Event(rawObj: cast[ptr WxObjectRaw](eventPtr))

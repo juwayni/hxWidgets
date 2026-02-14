@@ -103,4 +103,3 @@ type
   VariantRaw* {.importcpp: "wxVariant", header: "wx/variant.h", pure.} = object
 
 proc constructWxString*(s: cstring): WxStringRaw {.importcpp: "wxString::FromUTF8(@)", header: "wx/string.h".}
-proc toUtf8*(s: WxStringRaw): cstring {.importcpp: "#.ToUTF8().data()", header: "wx/string.h".}

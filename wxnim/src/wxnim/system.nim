@@ -1,12 +1,14 @@
 import common_types, evthandler, utils, gdi
 import ../wxraw/types
 import ../wxraw/system_raw
+import ../wxraw/system_extra_raw
 
 type
   Timer* = ref object of EvtHandler
   Config* = ref object of Object
   Locale* = ref object of Object
   Clipboard* = ref object of Object
+  PlatformInfo* = object
 
 proc finalizeTimer(self: Timer) =
   if self.rawObj != nil: deleteTimerRaw(cast[ptr TimerRaw](self.rawObj))
@@ -35,9 +37,8 @@ proc getMetric*(self: SystemSettings, metric: int, win: Window = nil): int =
   let rawWin = if win.isNull: nil else: win.rawWindow
   int(getMetric(metric.cint, rawWin))
 
-proc newLocale*(language: int): Locale =
-  # placeholder
-  result = Locale(rawObj: nil)
+proc osName*(self: PlatformInfo): string = $(getPlatformName())
+proc is64Bit*(self: PlatformInfo): bool = is64Bit()
 
 proc getClipboard*(): Clipboard =
   result = Clipboard(rawObj: wxTheClipboard)
